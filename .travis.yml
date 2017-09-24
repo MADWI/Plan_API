@@ -1,16 +1,22 @@
 language: java
-
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 script:
-  - ./gradlew check
-
+- "./gradlew check"
 notifications:
   slack: mad-schedule:FpIVKs2ukH4jsVPEEgNAvWKc
+deploy:
+  provider: releases
+  api_key:
+    secure: nFPFASIRPXBO7QotOqGKEYt4hJB1w8bVL8V0cpe+Zkx9EvIvDt6eKRlO4SFV4OAq8Ph/pKZTbO839yfpsUT9Q4ykfc2PO+RjPru8QcAm3ub5L8gB/ssi6YmyzNzQmVCIsoXQtIFJHhuTpz9QXIrzdUOqRy7R7lObqYeS5/RomGIgezubdBF9ZvVQonI9nBG0FbfknikUfUm7cj8SEKiKPkQ24oSp+1cq4D8ws3GGLfSAMt9WfAWfINT+xFmFCTX5b2N9Zkst/yFAam17lLTaB5MAzKE6T2cauyIikTeGxi5Ucyn6qLiITQlEjz7zgus8i1kuPDiVyiS0xLomyOCtMAonwcSD6TGM8nlZ3XoU6NtcNR63PWUUt7qBpIRSenxRu7DUjqOmFAGfQpzr1Et0Y5N2YZmRv2flEQzxO1TiQccd4yz3GaeuAQmjh/gf7zniBOSV80TkRHTYtgLrIQ5I8Sjte8gaHlgzX8kcvr6PpBCuUQtnioozknNiO74bIPUkoyEGKWlKFVKiSgcNvFdOyoMvov9WKnNeNE4F4T77Zz0atMwutkDV/ustyAAwQgygrHFjZu4x8U/koAHfXzume1Q1xRMgZFsu50wtefrpWYgBhnITnw17tTq7Miho1xQPbBvj70Z4ZGCBMHmyLXKu9WLAEHtUUhqcaLDNYz7tR4U=
+  file_glob: true
+  file: "${TRAVIS_BUILD_DIR}/build/libs/*.jar"
+  skip_cleanup: true
+  on:
+    tags: true
+    all_branches: true
