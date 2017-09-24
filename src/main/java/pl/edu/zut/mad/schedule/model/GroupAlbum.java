@@ -15,5 +15,5 @@ public class GroupAlbum {
     private Integer groupId;
 
     @Column(name = "G_NUMER_ALBUMU")
-    private String albumNumber; // TODO: use Integer?
+    private String albumNumber;
 }
