@@ -16,11 +16,15 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/api")
 public class ScheduleController {
 
-    @Autowired
-    private GroupAlbumRepository groupAlbumRepository;
+    private final GroupAlbumRepository groupAlbumRepository;
+    private final ScheduleRepository scheduleRepository;
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    public ScheduleController(GroupAlbumRepository groupAlbumRepository,
+                              ScheduleRepository scheduleRepository) {
+        this.groupAlbumRepository = groupAlbumRepository;
+        this.scheduleRepository = scheduleRepository;
+    }
 
     @GetMapping(path = "/schedule/{albumNumber}")
     @ResponseBody
