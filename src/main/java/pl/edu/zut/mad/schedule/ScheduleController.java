@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.zut.mad.schedule.exception.NotFoundException;
 import pl.edu.zut.mad.schedule.model.GroupAlbum;
 import pl.edu.zut.mad.schedule.model.Schedule;
 
@@ -33,6 +34,12 @@ public class ScheduleController {
         List<Integer> groupIds = groupAlbumList.stream()
                 .map(GroupAlbum::getGroupId)
                 .collect(Collectors.toList());
-        return scheduleRepository.findByGroupIdIn(groupIds);
+
+        final List<Schedule> studentSchedule = scheduleRepository.findByGroupIdIn(groupIds);
+        if (studentSchedule.isEmpty()) {
+            throw new NotFoundException(albumNumber);
+        }
+
+        return studentSchedule;
     }
 }
