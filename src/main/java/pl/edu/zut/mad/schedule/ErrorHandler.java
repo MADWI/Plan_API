@@ -18,14 +18,12 @@ import pl.edu.zut.mad.schedule.model.ErrorMessage;
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(ErrorHandler.class);
-
     private final MessageSource messageSource;
 
     @Autowired
     public ErrorHandler(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
-
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
