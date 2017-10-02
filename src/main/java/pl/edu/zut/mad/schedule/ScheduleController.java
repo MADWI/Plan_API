@@ -39,7 +39,6 @@ public class ScheduleController {
         if (studentSchedule.isEmpty()) {
             throw new NotFoundException(albumNumber);
         }
-
         return studentSchedule;
     }
 }

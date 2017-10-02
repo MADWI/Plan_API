@@ -1,9 +1,11 @@
 package pl.edu.zut.mad.schedule.model;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 
+@Getter
 public class ErrorMessage {
 
     private final Long timestamp;
@@ -16,21 +18,5 @@ public class ErrorMessage {
         this.code = status.value();
         this.error = status.getReasonPhrase();
         this.message = message;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }
