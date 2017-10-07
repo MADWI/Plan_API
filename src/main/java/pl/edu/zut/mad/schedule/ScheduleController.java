@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.zut.mad.schedule.exception.EmptyDatabaseException;
 import pl.edu.zut.mad.schedule.exception.NotFoundException;
 import pl.edu.zut.mad.schedule.model.GroupAlbum;
 import pl.edu.zut.mad.schedule.model.Schedule;
@@ -30,6 +31,9 @@ public class ScheduleController {
     @GetMapping(path = "/schedule/{albumNumber}")
     @ResponseBody
     public List<Schedule> getByNumber(@PathVariable Integer albumNumber) {
+        if (scheduleRepository.count() == 0) {
+            throw new EmptyDatabaseException();
+        }
         List<GroupAlbum> groupAlbumList = groupAlbumRepository.findByAlbumNumber(albumNumber.toString());
         List<Integer> groupIds = groupAlbumList.stream()
                 .map(GroupAlbum::getGroupId)

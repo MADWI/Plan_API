@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import pl.edu.zut.mad.schedule.exception.EmptyDatabaseException;
 import pl.edu.zut.mad.schedule.exception.NotFoundException;
 import pl.edu.zut.mad.schedule.model.ErrorMessage;
 
@@ -33,7 +34,18 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 "errNotFound",
                 new String[]{String.valueOf(ex.getId())},
                 LocaleContextHolder.getLocale());
-        return new ErrorMessage((HttpStatus.NOT_FOUND), message);
+        return new ErrorMessage(HttpStatus.NOT_FOUND, message);
+    }
+
+    @ExceptionHandler(EmptyDatabaseException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorMessage handleEmptyDatabaseException(EmptyDatabaseException ex) {
+        final String message = messageSource.getMessage(
+                "errEmptyDb",
+                null,
+                LocaleContextHolder.getLocale());
+        return new ErrorMessage(HttpStatus.NOT_FOUND, message);
     }
 
     @ExceptionHandler(RuntimeException.class)
