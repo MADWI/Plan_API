@@ -80,4 +80,8 @@ public class Schedule {
     @Id
     @Column(name = "do")
     private String timeTo;
+
+    public String getDay() {
+        return day.trim();
+    }
 }
