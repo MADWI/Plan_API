@@ -1,4 +1,4 @@
-package pl.edu.zut.mad.schedule.model;
+package pl.edu.zut.mad.schedule.model.inner;
 
 import lombok.EqualsAndHashCode;
 

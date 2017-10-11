@@ -1,7 +1,7 @@
 package pl.edu.zut.mad.schedule;
 
 import org.springframework.data.repository.CrudRepository;
-import pl.edu.zut.mad.schedule.model.GroupAlbum;
+import pl.edu.zut.mad.schedule.model.inner.GroupAlbum;
 
 import java.util.List;
 

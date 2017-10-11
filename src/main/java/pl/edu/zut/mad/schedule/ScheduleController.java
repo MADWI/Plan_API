@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.zut.mad.schedule.exception.EmptyDatabaseException;
 import pl.edu.zut.mad.schedule.exception.NotFoundException;
-import pl.edu.zut.mad.schedule.model.GroupAlbum;
-import pl.edu.zut.mad.schedule.model.Schedule;
+import pl.edu.zut.mad.schedule.model.inner.GroupAlbum;
+import pl.edu.zut.mad.schedule.model.inner.Schedule;
+import pl.edu.zut.mad.schedule.model.outer.Day;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static pl.edu.zut.mad.schedule.ScheduleMapper.daysFrom;
 
 @Controller
 @RequestMapping(path = "/api")
@@ -30,7 +33,7 @@ public class ScheduleController {
 
     @GetMapping(path = "/schedule/{albumNumber}")
     @ResponseBody
-    public List<Schedule> getByNumber(@PathVariable Integer albumNumber) {
+    public List<Day> getByNumber(@PathVariable Integer albumNumber) {
         if (scheduleRepository.count() == 0) {
             throw new EmptyDatabaseException();
         }
@@ -43,6 +46,6 @@ public class ScheduleController {
         if (studentSchedule.isEmpty()) {
             throw new NotFoundException(albumNumber);
         }
-        return studentSchedule;
+        return daysFrom(studentSchedule);
     }
 }
