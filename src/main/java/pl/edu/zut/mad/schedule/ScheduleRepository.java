@@ -1,7 +1,7 @@
 package pl.edu.zut.mad.schedule;
 
 import org.springframework.data.repository.CrudRepository;
-import pl.edu.zut.mad.schedule.model.Schedule;
+import pl.edu.zut.mad.schedule.model.inner.Schedule;
 
 import java.util.List;
 
