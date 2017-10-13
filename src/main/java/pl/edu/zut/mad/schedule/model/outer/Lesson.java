@@ -3,8 +3,8 @@ package pl.edu.zut.mad.schedule.model.outer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class Lesson {
     private final String room;
     private final String courseType;

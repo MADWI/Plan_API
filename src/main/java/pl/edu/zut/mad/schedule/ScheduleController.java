@@ -15,20 +15,20 @@ import pl.edu.zut.mad.schedule.model.outer.Day;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.edu.zut.mad.schedule.ScheduleMapper.daysFrom;
-
 @Controller
 @RequestMapping(path = "/api")
 public class ScheduleController {
 
     private final GroupAlbumRepository groupAlbumRepository;
     private final ScheduleRepository scheduleRepository;
+    private final ScheduleMapper scheduleMapper;
 
     @Autowired
     public ScheduleController(GroupAlbumRepository groupAlbumRepository,
-                              ScheduleRepository scheduleRepository) {
+                              ScheduleRepository scheduleRepository, ScheduleMapper scheduleMapper) {
         this.groupAlbumRepository = groupAlbumRepository;
         this.scheduleRepository = scheduleRepository;
+        this.scheduleMapper = scheduleMapper;
     }
 
     @GetMapping(path = "/schedule/{albumNumber}")
@@ -46,6 +46,6 @@ public class ScheduleController {
         if (studentSchedule.isEmpty()) {
             throw new NotFoundException(albumNumber);
         }
-        return daysFrom(studentSchedule);
+        return scheduleMapper.daysFrom(studentSchedule);
     }
 }

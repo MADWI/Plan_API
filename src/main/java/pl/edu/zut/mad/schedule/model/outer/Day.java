@@ -7,11 +7,11 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class Day {
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private final LocalDate date;
     private final List<Lesson> lessons;
 }

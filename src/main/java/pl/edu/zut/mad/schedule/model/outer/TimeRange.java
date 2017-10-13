@@ -6,8 +6,8 @@ import lombok.Getter;
 
 import java.time.LocalTime;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class TimeRange {
 
     @JsonFormat(pattern = "HH:mm")
