@@ -24,8 +24,8 @@ public class ScheduleController {
     private final ScheduleMapper scheduleMapper;
 
     @Autowired
-    public ScheduleController(GroupAlbumRepository groupAlbumRepository,
-                              ScheduleRepository scheduleRepository, ScheduleMapper scheduleMapper) {
+    public ScheduleController(GroupAlbumRepository groupAlbumRepository, ScheduleRepository scheduleRepository,
+                              ScheduleMapper scheduleMapper) {
         this.groupAlbumRepository = groupAlbumRepository;
         this.scheduleRepository = scheduleRepository;
         this.scheduleMapper = scheduleMapper;
