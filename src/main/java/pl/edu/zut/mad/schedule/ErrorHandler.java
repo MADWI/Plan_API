@@ -38,14 +38,14 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EmptyDatabaseException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
     @ResponseBody
     public ErrorMessage handleEmptyDatabaseException(EmptyDatabaseException ex) {
         final String message = messageSource.getMessage(
                 "errEmptyDb",
                 null,
                 LocaleContextHolder.getLocale());
-        return new ErrorMessage(HttpStatus.NOT_FOUND, message);
+        return new ErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, message);
     }
 
     @ExceptionHandler(RuntimeException.class)
