@@ -44,6 +44,6 @@ class ScheduleMapper {
 
         return new Lesson(schedule.getRoom(), schedule.getCourseType(), schedule.getSubject(),
                 schedule.getSemester(), schedule.getFaculty(), schedule.getFacultyAbbreviation(),
-                schedule.getFieldOfStudy(), teacher, timeRange);
+                schedule.getFieldOfStudy(), schedule.getReservationStatus(), teacher, timeRange);
     }
 }

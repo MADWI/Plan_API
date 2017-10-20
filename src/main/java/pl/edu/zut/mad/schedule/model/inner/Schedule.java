@@ -81,6 +81,10 @@ public class Schedule {
     @Column(name = "do")
     private String timeTo;
 
+    @Id
+    @Column(name = "Status_rez_n")
+    private String reservationStatus;
+
     public String getDay() {
         return day.trim();
     }
