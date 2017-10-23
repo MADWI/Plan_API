@@ -6,14 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.edu.zut.mad.schedule.exception.EmptyDatabaseException;
 import pl.edu.zut.mad.schedule.exception.NotFoundException;
 import pl.edu.zut.mad.schedule.model.ErrorMessage;
+
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
@@ -26,33 +27,49 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         this.messageSource = messageSource;
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    @ResponseBody
-    public ErrorMessage handleNotFoundException(NotFoundException ex) {
+    @ExceptionHandler({
+            NotFoundException.class,
+            EmptyDatabaseException.class,
+            RuntimeException.class
+    })
+    public ResponseEntity<ErrorMessage> handleException(Exception ex, HttpServletRequest request) {
+        if (ex instanceof NotFoundException) {
+            return handleNotFoundException((NotFoundException) ex, request);
+        } else if (ex instanceof EmptyDatabaseException) {
+            return handleEmptyDatabaseException((EmptyDatabaseException) ex, request);
+        } else {
+            return handleRuntimeException((RuntimeException) ex, request);
+        }
+    }
+
+    private ResponseEntity<ErrorMessage> handleNotFoundException(NotFoundException ex, HttpServletRequest request) {
         final String message = messageSource.getMessage(
                 "errNotFound",
                 new String[]{String.valueOf(ex.getId())},
                 LocaleContextHolder.getLocale());
-        return new ErrorMessage(HttpStatus.NOT_FOUND, message);
+        final ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, message, request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(errorMessage);
     }
 
-    @ExceptionHandler(EmptyDatabaseException.class)
-    @ResponseStatus(value = HttpStatus.SERVICE_UNAVAILABLE)
-    @ResponseBody
-    public ErrorMessage handleEmptyDatabaseException(EmptyDatabaseException ex) {
+    private ResponseEntity<ErrorMessage> handleEmptyDatabaseException(EmptyDatabaseException ex,
+                                                                      HttpServletRequest request) {
         final String message = messageSource.getMessage(
                 "errEmptyDb",
                 null,
                 LocaleContextHolder.getLocale());
-        return new ErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, message);
+        final ErrorMessage errorMessage =
+                new ErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, message, request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(errorMessage);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public ErrorMessage handleRuntimeException(RuntimeException ex) {
+    private ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException ex,
+                                                                HttpServletRequest request) {
         LOG.error(ex.getMessage(), ex);
-        return new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        final ErrorMessage errorMessage =
+                new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(errorMessage);
     }
 }
