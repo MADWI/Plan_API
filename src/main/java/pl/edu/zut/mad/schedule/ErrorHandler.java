@@ -47,7 +47,6 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 "errNotFound",
                 new String[]{String.valueOf(ex.getId())},
                 LocaleContextHolder.getLocale());
-        System.out.println(message);
         final ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, message, request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(errorMessage);
