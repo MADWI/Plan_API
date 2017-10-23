@@ -13,6 +13,7 @@ public class Lesson {
     private final String faculty;
     private final String facultyAbbreviation;
     private final String fieldOfStudy;
+    private final String reservationStatus;
     private final Teacher teacher;
     private final TimeRange timeRange;
 }
