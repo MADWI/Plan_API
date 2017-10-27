@@ -10,7 +10,6 @@ import pl.edu.zut.mad.schedule.model.outer.TimeRange;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 
@@ -48,14 +47,8 @@ class ScheduleMapper {
         final Teacher teacher = new Teacher(schedule.getAcademicTitle(),
                 schedule.getName(), schedule.getSurname());
 
-        final LocalDate date = LocalDate.parse(schedule.getDate());
-        final ZoneOffset zoneOffset = OffsetDateTime.now().getOffset();
-        final Long timeFrom = LocalTime.parse(schedule.getTimeFrom())
-                .atDate(date)
-                .toEpochSecond(zoneOffset);
-        final Long timeTo = LocalTime.parse(schedule.getTimeTo())
-                .atDate(date)
-                .toEpochSecond(zoneOffset);
+        final LocalTime timeFrom = LocalTime.parse(schedule.getTimeFrom());
+        final LocalTime timeTo = LocalTime.parse(schedule.getTimeTo());
         final TimeRange timeRange = new TimeRange(timeFrom, timeTo);
 
         return new Lesson(schedule.getRoom(), schedule.getCourseType(), schedule.getSubject(),
