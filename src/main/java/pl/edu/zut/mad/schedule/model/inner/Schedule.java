@@ -88,4 +88,28 @@ public class Schedule {
     public String getDay() {
         return day.trim();
     }
+
+    public enum Fields {
+        SURNAME("surname"),
+        ROOM("room"),
+        SUBJECT("subject"),
+        SEMESTER("semester"),
+        FACULTY("faculty"),
+        FACULTY_ABBREVIATION("facultyAbbreviation"),
+        FIELD_OF_STUDY("fieldOfStudy"),
+        FORM("form"),
+        DATE_FROM("dateFrom"),
+        DATE_TO("dateTo"),
+        DATE("date");
+
+        private final String key;
+
+        Fields(String key) {
+            this.key = key;
+        }
+
+        public String getKey() {
+            return key;
+        }
+    }
 }
