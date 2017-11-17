@@ -32,27 +32,28 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
             EmptyDatabaseException.class,
             RuntimeException.class
     })
-    public ResponseEntity<ErrorMessage> handleException(Exception ex, HttpServletRequest request) {
-        if (ex instanceof NotFoundException) {
-            return handleNotFoundException((NotFoundException) ex, request);
-        } else if (ex instanceof EmptyDatabaseException) {
-            return handleEmptyDatabaseException((EmptyDatabaseException) ex, request);
+    public ResponseEntity<ErrorMessage> handleException(Exception exception, HttpServletRequest request) {
+        if (exception instanceof NotFoundException) {
+            return handleNotFoundException((NotFoundException) exception, request);
+        } else if (exception instanceof EmptyDatabaseException) {
+            return handleEmptyDatabaseException((EmptyDatabaseException) exception, request);
         } else {
-            return handleRuntimeException((RuntimeException) ex, request);
+            return handleRuntimeException((RuntimeException) exception, request);
         }
     }
 
-    private ResponseEntity<ErrorMessage> handleNotFoundException(NotFoundException ex, HttpServletRequest request) {
+    private ResponseEntity<ErrorMessage> handleNotFoundException(NotFoundException exception,
+                                                                 HttpServletRequest request) {
         final String message = messageSource.getMessage(
                 "errNotFound",
-                new String[]{ex.getValue()},
+                new String[]{exception.getValue()},
                 LocaleContextHolder.getLocale());
         final ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, message, request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(errorMessage);
     }
 
-    private ResponseEntity<ErrorMessage> handleEmptyDatabaseException(EmptyDatabaseException ex,
+    private ResponseEntity<ErrorMessage> handleEmptyDatabaseException(EmptyDatabaseException exception,
                                                                       HttpServletRequest request) {
         final String message = messageSource.getMessage(
                 "errEmptyDb",
@@ -64,11 +65,11 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 .body(errorMessage);
     }
 
-    private ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException ex,
+    private ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException exception,
                                                                 HttpServletRequest request) {
-        LOG.error(ex.getMessage(), ex);
+        LOG.error(exception.getMessage(), exception);
         final ErrorMessage errorMessage =
-                new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request.getRequestURI());
+                new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(errorMessage);
     }

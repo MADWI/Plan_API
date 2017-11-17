@@ -19,14 +19,14 @@ public class ScheduleSpecification implements Specification<Schedule> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Schedule> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+    public Predicate toPredicate(Root<Schedule> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
         if (searchCriteria.getKey().equals(Schedule.Fields.DATE_FROM.getKey())) {
-            return cb.greaterThanOrEqualTo(root.get(DATE.getKey()), searchCriteria.getValue());
+            return builder.greaterThanOrEqualTo(root.get(DATE.getKey()), searchCriteria.getValue());
         } else if (searchCriteria.getKey().equals(Schedule.Fields.DATE_TO.getKey())) {
-            return cb.lessThanOrEqualTo(root.get(DATE.getKey()), searchCriteria.getValue());
+            return builder.lessThanOrEqualTo(root.get(DATE.getKey()), searchCriteria.getValue());
         } else {
-            return cb.like(root.get(searchCriteria.getKey()), "%" + searchCriteria.getValue() + "%");
+            return builder.like(root.get(searchCriteria.getKey()), "%" + searchCriteria.getValue() + "%");
         }
     }
 }

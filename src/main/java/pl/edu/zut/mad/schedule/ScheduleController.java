@@ -60,8 +60,8 @@ public class ScheduleController {
             throw new EmptyDatabaseException();
         }
 
-        Specification<Schedule> spec = scheduleSpecificationFactory.specification(params);
-        final List<Schedule> searchedSchedule = scheduleRepository.findAll(spec);
+        Specification<Schedule> specification = scheduleSpecificationFactory.specification(params);
+        final List<Schedule> searchedSchedule = scheduleRepository.findAll(specification);
         if (searchedSchedule.isEmpty()) {
             throw new NotFoundException(params.toString());
         }
