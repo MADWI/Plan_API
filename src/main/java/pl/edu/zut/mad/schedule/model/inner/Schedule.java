@@ -90,6 +90,7 @@ public class Schedule {
     }
 
     public enum Fields {
+        NAME("name"),
         SURNAME("surname"),
         ROOM("room"),
         SUBJECT("subject"),
