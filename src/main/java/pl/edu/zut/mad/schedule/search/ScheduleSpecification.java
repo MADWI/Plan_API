@@ -8,7 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.DATE;
+import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.*;
 
 public class ScheduleSpecification implements Specification<Schedule> {
 
@@ -21,10 +21,12 @@ public class ScheduleSpecification implements Specification<Schedule> {
     @Override
     public Predicate toPredicate(Root<Schedule> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
-        if (searchCriteria.getKey().equals(Schedule.Fields.DATE_FROM.getKey())) {
+        if (searchCriteria.getKey().equals(DATE_FROM.getKey())) {
             return builder.greaterThanOrEqualTo(root.get(DATE.getKey()), searchCriteria.getValue());
-        } else if (searchCriteria.getKey().equals(Schedule.Fields.DATE_TO.getKey())) {
+        } else if (searchCriteria.getKey().equals(DATE_TO.getKey())) {
             return builder.lessThanOrEqualTo(root.get(DATE.getKey()), searchCriteria.getValue());
+        } else if (searchCriteria.getKey().equals(FACULTY_ABBREVIATION.getKey())) {
+            return builder.equal(root.get(FACULTY_ABBREVIATION.getKey()), searchCriteria.getValue());
         } else {
             return builder.like(root.get(searchCriteria.getKey()), "%" + searchCriteria.getValue() + "%");
         }
