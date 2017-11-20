@@ -20,15 +20,16 @@ public class ScheduleSpecification implements Specification<Schedule> {
 
     @Override
     public Predicate toPredicate(Root<Schedule> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-
-        if (searchCriteria.getKey().equals(DATE_FROM.getKey())) {
-            return builder.greaterThanOrEqualTo(root.get(DATE.getKey()), searchCriteria.getValue());
-        } else if (searchCriteria.getKey().equals(DATE_TO.getKey())) {
-            return builder.lessThanOrEqualTo(root.get(DATE.getKey()), searchCriteria.getValue());
-        } else if (searchCriteria.getKey().equals(FACULTY_ABBREVIATION.getKey())) {
-            return builder.equal(root.get(FACULTY_ABBREVIATION.getKey()), searchCriteria.getValue());
+        final String searchKey = searchCriteria.getKey();
+        final String searchValue = searchCriteria.getValue();
+        if (searchKey.equals(DATE_FROM.getKey())) {
+            return builder.greaterThanOrEqualTo(root.get(DATE.getKey()), searchValue);
+        } else if (searchKey.equals(DATE_TO.getKey())) {
+            return builder.lessThanOrEqualTo(root.get(DATE.getKey()), searchValue);
+        } else if (searchKey.equals(FACULTY_ABBREVIATION.getKey())) {
+            return builder.equal(root.get(FACULTY_ABBREVIATION.getKey()), searchValue);
         } else {
-            return builder.like(root.get(searchCriteria.getKey()), "%" + searchCriteria.getValue() + "%");
+            return builder.like(root.get(searchKey), "%" + searchValue + "%");
         }
     }
 }
