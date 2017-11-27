@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import pl.edu.zut.mad.schedule.exception.BadRequestException;
 import pl.edu.zut.mad.schedule.exception.EmptyDatabaseException;
 import pl.edu.zut.mad.schedule.exception.NotFoundException;
 import pl.edu.zut.mad.schedule.model.ErrorMessage;
@@ -30,6 +31,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({
             NotFoundException.class,
             EmptyDatabaseException.class,
+            BadRequestException.class,
             RuntimeException.class
     })
     public ResponseEntity<ErrorMessage> handleException(Exception exception, HttpServletRequest request) {
@@ -37,6 +39,8 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
             return handleNotFoundException((NotFoundException) exception, request);
         } else if (exception instanceof EmptyDatabaseException) {
             return handleEmptyDatabaseException((EmptyDatabaseException) exception, request);
+        } else if (exception instanceof BadRequestException) {
+            return handleBadRequestException((BadRequestException) exception, request);
         } else {
             return handleRuntimeException((RuntimeException) exception, request);
         }
@@ -62,6 +66,14 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         final ErrorMessage errorMessage =
                 new ErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, message, request.getRequestURI());
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(errorMessage);
+    }
+
+    private ResponseEntity<ErrorMessage> handleBadRequestException(BadRequestException exception,
+                                                                   HttpServletRequest request) {
+        final ErrorMessage errorMessage =
+                new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(errorMessage);
     }
 

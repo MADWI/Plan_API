@@ -12,7 +12,7 @@ import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.*;
 
 public class ScheduleSpecification implements Specification<Schedule> {
 
-    private SearchCriteria searchCriteria;
+    private final SearchCriteria searchCriteria;
 
     ScheduleSpecification(SearchCriteria searchCriteria) {
         this.searchCriteria = searchCriteria;
@@ -28,6 +28,9 @@ public class ScheduleSpecification implements Specification<Schedule> {
             return builder.lessThanOrEqualTo(root.get(DATE.getKey()), searchValue);
         } else if (searchKey.equals(FACULTY_ABBREVIATION.getKey())) {
             return builder.equal(root.get(FACULTY_ABBREVIATION.getKey()), searchValue);
+        } else if (searchKey.equals(GROUP_ID.getKey())) {
+            return root.get(GROUP_ID.getKey())
+                    .in(searchValue);
         } else {
             return builder.like(root.get(searchKey), "%" + searchValue + "%");
         }
