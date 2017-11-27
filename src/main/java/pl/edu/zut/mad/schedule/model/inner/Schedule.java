@@ -101,7 +101,8 @@ public class Schedule {
         FORM("form"),
         DATE_FROM("dateFrom"),
         DATE_TO("dateTo"),
-        DATE("date");
+        DATE("date"),
+        GROUP_ID("groupId");
 
         private final String key;
 
