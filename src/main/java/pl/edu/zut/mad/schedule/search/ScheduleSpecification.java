@@ -14,6 +14,8 @@ import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.*;
 
 public class ScheduleSpecification implements Specification<Schedule> {
 
+    private static final String DATE_PATTERN = "dd-MM-yyyy";
+
     private final SearchCriteria searchCriteria;
 
     ScheduleSpecification(SearchCriteria searchCriteria) {
@@ -41,8 +43,7 @@ public class ScheduleSpecification implements Specification<Schedule> {
     }
 
     private String formatDate(String date) {
-        final String datePattern = "dd-MM-yyyy";
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(datePattern));
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
         return localDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }
