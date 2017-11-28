@@ -14,7 +14,7 @@ import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.*;
 
 public class ScheduleSpecification implements Specification<Schedule> {
 
-    private static final String DATE_PATTERN = "dd-MM-yyyy";
+    static final String DATE_PATTERN = "dd-MM-yyyy";
 
     private final SearchCriteria searchCriteria;
 
