@@ -41,7 +41,8 @@ public class ScheduleSpecification implements Specification<Schedule> {
     }
 
     private String formatDate(String date) {
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        final String datePattern = "dd-MM-yyyy";
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(datePattern));
         return localDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }
