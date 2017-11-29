@@ -1,6 +1,7 @@
 package pl.edu.zut.mad.schedule.search;
 
 import org.springframework.data.jpa.domain.Specification;
+import pl.edu.zut.mad.schedule.exception.BadRequestException;
 import pl.edu.zut.mad.schedule.model.inner.Schedule;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -9,6 +10,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.*;
 
@@ -43,7 +45,11 @@ public class ScheduleSpecification implements Specification<Schedule> {
     }
 
     private String formatDate(String date) {
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
-        return localDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        try {
+            LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_PATTERN));
+            return localDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (DateTimeParseException exception) {
+            throw new BadRequestException(exception.getMessage());
+        }
     }
 }
