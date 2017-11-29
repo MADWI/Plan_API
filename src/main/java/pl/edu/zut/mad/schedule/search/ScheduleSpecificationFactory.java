@@ -79,7 +79,7 @@ public class ScheduleSpecificationFactory {
         final String from = params.get(DATE_FROM.getKey());
         final String to = params.get(DATE_TO.getKey());
 
-        if (StringUtils.isEmpty(from) && StringUtils.isEmpty(to)) {
+        if (!StringUtils.isEmpty(from) && !StringUtils.isEmpty(to)) {
             try {
                 final LocalDate dateFrom = LocalDate.parse(from, DateTimeFormatter.ofPattern(DATE_PATTERN));
                 final LocalDate dateTo = LocalDate.parse(to, DateTimeFormatter.ofPattern(DATE_PATTERN));
