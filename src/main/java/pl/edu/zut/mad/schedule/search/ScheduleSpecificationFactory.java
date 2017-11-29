@@ -6,12 +6,14 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import pl.edu.zut.mad.schedule.exception.BadRequestException;
 import pl.edu.zut.mad.schedule.model.inner.Schedule;
 import pl.edu.zut.mad.schedule.model.inner.Schedule.Fields;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -77,10 +79,14 @@ public class ScheduleSpecificationFactory {
         final String from = params.get(DATE_FROM.getKey());
         final String to = params.get(DATE_TO.getKey());
 
-        if (from != null && to != null) {
-            final LocalDate dateFrom = LocalDate.parse(from, DateTimeFormatter.ofPattern(DATE_PATTERN));
-            final LocalDate dateTo = LocalDate.parse(to, DateTimeFormatter.ofPattern(DATE_PATTERN));
-            return dateFrom.compareTo(dateTo) <= 0;
+        if (StringUtils.isEmpty(from) && StringUtils.isEmpty(to)) {
+            try {
+                final LocalDate dateFrom = LocalDate.parse(from, DateTimeFormatter.ofPattern(DATE_PATTERN));
+                final LocalDate dateTo = LocalDate.parse(to, DateTimeFormatter.ofPattern(DATE_PATTERN));
+                return dateFrom.compareTo(dateTo) <= 0;
+            } catch (DateTimeParseException exception) {
+                throw new BadRequestException(exception.getMessage());
+            }
         }
 
         return true;
