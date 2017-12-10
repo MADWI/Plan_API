@@ -17,6 +17,7 @@ import pl.edu.zut.mad.schedule.search.ScheduleSpecificationFactory;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
@@ -99,18 +100,7 @@ public class ScheduleController {
             throw new NotFoundException(surname);
         }
 
-        if (size == null) {
-            return schedules.stream()
-                    .map(Schedule::getSurname)
-                    .distinct()
-                    .collect(Collectors.toList());
-        } else {
-            return schedules.stream()
-                    .map(Schedule::getSurname)
-                    .distinct()
-                    .limit(size)
-                    .collect(Collectors.toList());
-        }
+        return extractResultFromSchedule(schedules, size, Schedule::getSurname);
     }
 
     @GetMapping(path = "/subject/{subject}")
@@ -126,14 +116,19 @@ public class ScheduleController {
             throw new NotFoundException(subject);
         }
 
+        return extractResultFromSchedule(schedules, size, Schedule::getSubject);
+    }
+
+    private List<String> extractResultFromSchedule(List<Schedule> schedules, Integer size,
+                                                   Function<Schedule, String> mapper) {
         if (size == null) {
             return schedules.stream()
-                    .map(Schedule::getSubject)
+                    .map(mapper)
                     .distinct()
                     .collect(Collectors.toList());
         } else {
             return schedules.stream()
-                    .map(Schedule::getSubject)
+                    .map(mapper)
                     .distinct()
                     .limit(size)
                     .collect(Collectors.toList());
