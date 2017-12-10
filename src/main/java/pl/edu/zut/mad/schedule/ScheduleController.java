@@ -86,6 +86,60 @@ public class ScheduleController {
         return scheduleMapper.daysFrom(searchedSchedule);
     }
 
+    @GetMapping(path = "/teacher/{surname}")
+    @ResponseBody
+    public List<String> findTeacher(@PathVariable String surname,
+                                    @RequestParam(required = false) Integer size) {
+        if (scheduleRepository.count() == 0) {
+            throw new EmptyDatabaseException();
+        }
+
+        List<Schedule> schedules = scheduleRepository.findDistinctBySurnameContaining(surname);
+        if (schedules.isEmpty()) {
+            throw new NotFoundException(surname);
+        }
+
+        if (size == null) {
+            return schedules.stream()
+                    .map(Schedule::getSurname)
+                    .distinct()
+                    .collect(Collectors.toList());
+        } else {
+            return schedules.stream()
+                    .map(Schedule::getSurname)
+                    .distinct()
+                    .limit(size)
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @GetMapping(path = "/subject/{subject}")
+    @ResponseBody
+    public List<String> findSubject(@PathVariable String subject,
+                                    @RequestParam(required = false) Integer size) {
+        if (scheduleRepository.count() == 0) {
+            throw new EmptyDatabaseException();
+        }
+
+        List<Schedule> schedules = scheduleRepository.findDistinctBySubjectContaining(subject);
+        if (schedules.isEmpty()) {
+            throw new NotFoundException(subject);
+        }
+
+        if (size == null) {
+            return schedules.stream()
+                    .map(Schedule::getSubject)
+                    .distinct()
+                    .collect(Collectors.toList());
+        } else {
+            return schedules.stream()
+                    .map(Schedule::getSubject)
+                    .distinct()
+                    .limit(size)
+                    .collect(Collectors.toList());
+        }
+    }
+
     private BadRequestException handleMissingParameter() throws BadRequestException {
         final String message = messageSource.getMessage(
                 "errMissingParam",

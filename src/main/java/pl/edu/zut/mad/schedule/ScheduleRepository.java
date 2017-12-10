@@ -9,4 +9,8 @@ import java.util.List;
 public interface ScheduleRepository extends CrudRepository<Schedule, Integer>, JpaSpecificationExecutor<Schedule> {
 
     List<Schedule> findByGroupIdIn(List<Integer> groupsId);
+
+    List<Schedule> findDistinctBySurnameContaining(String surname);
+
+    List<Schedule> findDistinctBySubjectContaining(String subject);
 }
