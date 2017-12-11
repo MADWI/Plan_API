@@ -1,6 +1,8 @@
 package pl.edu.zut.mad.schedule;
 
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import pl.edu.zut.mad.schedule.model.inner.Schedule;
 import pl.edu.zut.mad.schedule.model.outer.Day;
 import pl.edu.zut.mad.schedule.model.outer.Lesson;
@@ -41,9 +43,23 @@ class ScheduleMapper {
                 schedule.getName(), schedule.getSurname());
         final TimeRange timeRange = new TimeRange(LocalTime.parse(schedule.getTimeFrom()),
                 LocalTime.parse(schedule.getTimeTo()));
+        final Teacher substituteTeacher = substituteTeacherFrom(schedule);
 
         return new Lesson(schedule.getRoom(), schedule.getCourseType(), schedule.getSubject(),
                 schedule.getSemester(), schedule.getFaculty(), schedule.getFacultyAbbreviation(),
-                schedule.getFieldOfStudy(), schedule.getReservationStatus(), teacher, timeRange);
+                schedule.getFieldOfStudy(), schedule.getReservationStatus(),
+                schedule.getReservationStatusAbbreviation(), schedule.getStatus(), teacher, timeRange,
+                substituteTeacher);
+    }
+
+    @Nullable
+    private Teacher substituteTeacherFrom(final Schedule schedule) {
+        if (StringUtils.isEmpty(schedule.getSubstituteName())
+                || StringUtils.isEmpty(schedule.getSubstituteSurname())) {
+            return null;
+        } else {
+            return new Teacher(schedule.getSubstituteTitle(),
+                    schedule.getSubstituteName(), schedule.getSubstituteSurname());
+        }
     }
 }
