@@ -26,4 +26,9 @@ class ScheduleId implements Serializable {
     private String timeFrom;
     private String timeTo;
     private String reservationStatus;
+    private String reservationStatusAbbreviation;
+    private String status;
+    private String substituteTitle;
+    private String substituteSurname;
+    private String substituteName;
 }

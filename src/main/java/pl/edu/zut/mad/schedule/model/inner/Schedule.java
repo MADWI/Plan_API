@@ -85,6 +85,26 @@ public class Schedule {
     @Column(name = "Status_rez_n")
     private String reservationStatus;
 
+    @Id
+    @Column(name = "Status_rez_skr")
+    private String reservationStatusAbbreviation;
+
+    @Id
+    @Column(name = "status")
+    private String status;
+
+    @Id
+    @Column(name = "Zca_Tytul")
+    private String substituteTitle;
+
+    @Id
+    @Column(name = "Zca_Nazwisko")
+    private String substituteSurname;
+
+    @Id
+    @Column(name = "Zca_Imie")
+    private String substituteName;
+
     public String getDay() {
         return day.trim();
     }
