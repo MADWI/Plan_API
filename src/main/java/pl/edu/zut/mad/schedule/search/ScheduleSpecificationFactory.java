@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import pl.edu.zut.mad.schedule.exception.BadRequestException;
 import pl.edu.zut.mad.schedule.model.inner.Schedule;
-import pl.edu.zut.mad.schedule.model.inner.Schedule.Fields;
+import pl.edu.zut.mad.schedule.model.inner.Schedule.Field;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
-import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.DATE_FROM;
-import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.DATE_TO;
+import static pl.edu.zut.mad.schedule.model.inner.Schedule.Field.DATE_FROM;
+import static pl.edu.zut.mad.schedule.model.inner.Schedule.Field.DATE_TO;
 import static pl.edu.zut.mad.schedule.search.ScheduleSpecification.DATE_PATTERN;
 
 @Component
@@ -93,7 +93,7 @@ public class ScheduleSpecificationFactory {
     }
 
     private boolean isValidParam(Map.Entry<String, String> e) {
-        return Arrays.stream(Fields.values())
+        return Arrays.stream(Field.values())
                 .anyMatch(f -> f.getKey().equals(e.getKey()));
     }
 }

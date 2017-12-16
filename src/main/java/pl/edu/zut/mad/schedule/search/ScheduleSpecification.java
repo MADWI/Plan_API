@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.*;
+import static pl.edu.zut.mad.schedule.model.inner.Schedule.Field.*;
 
 public class ScheduleSpecification implements Specification<Schedule> {
 
@@ -28,19 +28,22 @@ public class ScheduleSpecification implements Specification<Schedule> {
     public Predicate toPredicate(Root<Schedule> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         final String searchKey = searchCriteria.getKey();
         final String searchValue = searchCriteria.getValue();
-        if (searchKey.equals(DATE_FROM.getKey())) {
-            return builder.greaterThanOrEqualTo(root.get(DATE.getKey()), formatDate(searchValue));
-        } else if (searchKey.equals(DATE_TO.getKey())) {
-            return builder.lessThanOrEqualTo(root.get(DATE.getKey()), formatDate(searchValue));
-        } else if (searchKey.equals(DATE.getKey())) {
-            return builder.equal(root.get(DATE.getKey()), formatDate(searchValue));
-        } else if (searchKey.equals(FACULTY_ABBREVIATION.getKey())) {
-            return builder.equal(root.get(FACULTY_ABBREVIATION.getKey()), searchValue);
-        } else if (searchKey.equals(GROUP_ID.getKey())) {
-            return root.get(GROUP_ID.getKey())
-                    .in(searchValue);
-        } else {
-            return builder.like(root.get(searchKey), "%" + searchValue + "%");
+        final Schedule.Field field = Schedule.Field.fieldOf(searchKey);
+
+        switch (field) {
+            case FACULTY_ABBREVIATION:
+                return builder.equal(root.get(FACULTY_ABBREVIATION.getKey()), searchValue);
+            case DATE_FROM:
+                return builder.greaterThanOrEqualTo(root.get(DATE.getKey()), formatDate(searchValue));
+            case DATE_TO:
+                return builder.lessThanOrEqualTo(root.get(DATE.getKey()), formatDate(searchValue));
+            case DATE:
+                return builder.equal(root.get(DATE.getKey()), formatDate(searchValue));
+            case GROUP_ID:
+                return root.get(GROUP_ID.getKey())
+                        .in(searchValue);
+            default:
+                return builder.like(root.get(searchKey), "%" + searchValue + "%");
         }
     }
 
