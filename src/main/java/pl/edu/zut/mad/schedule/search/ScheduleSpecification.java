@@ -33,6 +33,8 @@ public class ScheduleSpecification implements Specification<Schedule> {
         switch (field) {
             case FACULTY_ABBREVIATION:
                 return builder.equal(root.get(FACULTY_ABBREVIATION.getKey()), searchValue);
+            case RESERVATION_STATUS_ABBREVIATION:
+                return builder.equal(root.get(RESERVATION_STATUS_ABBREVIATION.getKey()), searchValue);
             case DATE_FROM:
                 return builder.greaterThanOrEqualTo(root.get(DATE.getKey()), formatDate(searchValue));
             case DATE_TO:

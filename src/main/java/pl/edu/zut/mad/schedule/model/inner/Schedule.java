@@ -128,7 +128,11 @@ public class Schedule {
         DATE_TO("dateTo", null),
         DATE("date", Schedule::getDate),
         GROUP_ID("groupId", schedule -> schedule.getGroupId().toString()),
-        RESERVATION_STATUS("reservationStatus", Schedule::getReservationStatus);
+        RESERVATION_STATUS("reservationStatus", Schedule::getReservationStatus),
+        RESERVATION_STATUS_ABBREVIATION("reservationStatusAbbreviation", Schedule::getReservationStatusAbbreviation),
+        STATUS("status", Schedule::getStatus),
+        SUBSTITUTE_SURNAME("substituteSurname", Schedule::getSubstituteSurname),
+        SUBSTITUTE_NAME("substituteName", Schedule::getSubstituteName);
 
         private static final Map<String, Field> valuesLookup = new HashMap<>();
 
