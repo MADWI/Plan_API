@@ -3,7 +3,7 @@ package pl.edu.zut.mad.schedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.zut.mad.schedule.exception.NotFoundException;
+import pl.edu.zut.mad.schedule.exception.ScheduleExceptionFactory;
 import pl.edu.zut.mad.schedule.model.inner.Schedule;
 import pl.edu.zut.mad.schedule.model.outer.Day;
 
@@ -16,12 +16,15 @@ public class ScheduleController {
 
     private final ScheduleMapper scheduleMapper;
     private final ScheduleService scheduleService;
+    private final ScheduleExceptionFactory exceptionFactory;
 
     @Autowired
     public ScheduleController(ScheduleMapper scheduleMapper,
-                              ScheduleService scheduleService) {
+                              ScheduleService scheduleService,
+                              ScheduleExceptionFactory exceptionFactory) {
         this.scheduleMapper = scheduleMapper;
         this.scheduleService = scheduleService;
+        this.exceptionFactory = exceptionFactory;
     }
 
     @GetMapping(path = "/{albumNumber}")
@@ -51,7 +54,7 @@ public class ScheduleController {
 
     private <T> void checkIfEmpty(List<T> results, String params) {
         if (results.isEmpty()) {
-            throw new NotFoundException(params);
+            throw exceptionFactory.notFound(params);
         }
     }
 }

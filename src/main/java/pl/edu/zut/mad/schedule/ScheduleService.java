@@ -1,13 +1,9 @@
 package pl.edu.zut.mad.schedule;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import pl.edu.zut.mad.schedule.exception.BadRequestException;
-import pl.edu.zut.mad.schedule.exception.EmptyDatabaseException;
-import pl.edu.zut.mad.schedule.exception.NotFoundException;
+import pl.edu.zut.mad.schedule.exception.ScheduleExceptionFactory;
 import pl.edu.zut.mad.schedule.model.inner.GroupAlbum;
 import pl.edu.zut.mad.schedule.model.inner.Schedule;
 import pl.edu.zut.mad.schedule.search.ScheduleSpecificationFactory;
@@ -28,29 +24,29 @@ public class ScheduleService {
     private final GroupAlbumRepository groupAlbumRepository;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleSpecificationFactory scheduleSpecificationFactory;
-    private final MessageSource messageSource;
+    private final ScheduleExceptionFactory exceptionFactory;
 
     @Autowired
     public ScheduleService(GroupAlbumRepository groupAlbumRepository,
                            ScheduleRepository scheduleRepository,
                            ScheduleSpecificationFactory scheduleSpecificationFactory,
-                           MessageSource messageSource) {
+                           ScheduleExceptionFactory exceptionFactory) {
         this.groupAlbumRepository = groupAlbumRepository;
         this.scheduleRepository = scheduleRepository;
         this.scheduleSpecificationFactory = scheduleSpecificationFactory;
-        this.messageSource = messageSource;
+        this.exceptionFactory = exceptionFactory;
     }
 
     public List<Schedule> findByAlbumNumber(final int albumNumber, final Map<String, String> params) {
         if (scheduleRepository.count() == 0) {
-            throw new EmptyDatabaseException();
+            throw exceptionFactory.emptyDatabase();
         }
         List<GroupAlbum> groupAlbumList = groupAlbumRepository.findByAlbumNumber(String.valueOf(albumNumber));
         List<Integer> groupIds = groupAlbumList.stream()
                 .map(GroupAlbum::getGroupId)
                 .collect(Collectors.toList());
         if (groupIds.isEmpty()) {
-            throw new NotFoundException(String.valueOf(albumNumber));
+            throw exceptionFactory.notFound(String.valueOf(albumNumber));
         }
 
         final Specification<Schedule> specification = scheduleSpecificationFactory.specification(params, groupIds);
@@ -59,31 +55,31 @@ public class ScheduleService {
 
     public List<Schedule> findBy(Map<String, String> params) {
         if (scheduleRepository.count() == 0) {
-            throw new EmptyDatabaseException();
+            throw exceptionFactory.emptyDatabase();
         }
         if (params.isEmpty()) {
-            throw handleMissingParameter();
+            throw exceptionFactory.missingParam();
         }
         Optional<Specification<Schedule>> optionalSpecification = scheduleSpecificationFactory.specification(params);
         Specification<Schedule> specification = optionalSpecification
-                .orElseThrow(this::handleMissingParameter);
+                .orElseThrow(exceptionFactory::missingParam);
         return scheduleRepository.findAll(specification);
     }
 
     public List<String> getDictionaryFor(Map<String, String> params) {
         if (scheduleRepository.count() == 0) {
-            throw new EmptyDatabaseException();
+            throw exceptionFactory.emptyDatabase();
         }
 
         Integer limit = params.containsKey(LIMIT) ? Integer.parseInt(params.get(LIMIT)) : null;
         String filter = params.get(FILTER);
         if (!params.containsKey(filter)) {
-            throw handleMissingParameter(filter);
+            throw exceptionFactory.missingRequiredParam(filter);
         }
 
         Optional<Specification<Schedule>> optionalSpecification = scheduleSpecificationFactory.specification(params);
         Specification<Schedule> specification = optionalSpecification
-                .orElseThrow(this::handleMissingParameter);
+                .orElseThrow(exceptionFactory::missingParam);
         List<Schedule> schedules = scheduleRepository.findAll(specification);
         return extractResultFromSchedule(schedules, limit, getMapper(filter));
     }
@@ -108,29 +104,7 @@ public class ScheduleService {
         if (field.getMapper().isPresent()) {
             return field.getMapper().get();
         } else {
-            final String message = messageSource.getMessage(
-                    "errUnsupportedParam",
-                    new String[]{filter},
-                    LocaleContextHolder.getLocale());
-            throw new BadRequestException(message);
+            throw exceptionFactory.unsupportedParam(filter);
         }
-    }
-
-    private BadRequestException handleMissingParameter() throws BadRequestException {
-        final String message = messageSource.getMessage(
-                "errMissingParam",
-                null,
-                LocaleContextHolder.getLocale());
-
-        throw new BadRequestException(message);
-    }
-
-    private BadRequestException handleMissingParameter(String parameter) throws BadRequestException {
-        final String message = messageSource.getMessage(
-                "errMissingRequiredParam",
-                new String[]{parameter},
-                LocaleContextHolder.getLocale());
-
-        throw new BadRequestException(message);
     }
 }

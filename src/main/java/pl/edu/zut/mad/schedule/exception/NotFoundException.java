@@ -1,10 +1,10 @@
 package pl.edu.zut.mad.schedule.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
-@Getter
-@AllArgsConstructor
-public class NotFoundException extends RuntimeException {
-    private final String value;
+class NotFoundException extends ScheduleException {
+
+    NotFoundException(String message) {
+        super(message, HttpStatus.NOT_FOUND);
+    }
 }
