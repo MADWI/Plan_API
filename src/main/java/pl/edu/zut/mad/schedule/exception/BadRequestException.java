@@ -1,8 +1,10 @@
 package pl.edu.zut.mad.schedule.exception;
 
-public class BadRequestException extends RuntimeException {
+import org.springframework.http.HttpStatus;
 
-    public BadRequestException(String message) {
-        super(message);
+public class BadRequestException extends ScheduleException {
+
+    BadRequestException(String message) {
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }

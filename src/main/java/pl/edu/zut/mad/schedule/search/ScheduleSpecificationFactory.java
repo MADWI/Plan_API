@@ -1,13 +1,11 @@
 package pl.edu.zut.mad.schedule.search;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import pl.edu.zut.mad.schedule.exception.BadRequestException;
+import pl.edu.zut.mad.schedule.exception.ScheduleExceptionFactory;
 import pl.edu.zut.mad.schedule.model.inner.Schedule;
 import pl.edu.zut.mad.schedule.model.inner.Schedule.Field;
 
@@ -27,21 +25,16 @@ import static pl.edu.zut.mad.schedule.search.ScheduleSpecification.DATE_PATTERN;
 @Component
 public class ScheduleSpecificationFactory {
 
-    private final MessageSource messageSource;
+    private final ScheduleExceptionFactory exceptionFactory;
 
     @Autowired
-    public ScheduleSpecificationFactory(MessageSource messageSource) {
-        this.messageSource = messageSource;
+    public ScheduleSpecificationFactory(ScheduleExceptionFactory exceptionFactory) {
+        this.exceptionFactory = exceptionFactory;
     }
 
     public Optional<Specification<Schedule>> specification(Map<String, String> params) {
         if (!isDateRangeValid(params)) {
-            final String message = messageSource.getMessage(
-                    "errInvalidDateRange",
-                    null,
-                    LocaleContextHolder.getLocale());
-
-            throw new BadRequestException(message);
+            throw exceptionFactory.invalidDateRange();
         }
 
         List<ScheduleSpecification> scheduleSpecifications = params.entrySet()
@@ -85,7 +78,7 @@ public class ScheduleSpecificationFactory {
                 final LocalDate dateTo = LocalDate.parse(to, DateTimeFormatter.ofPattern(DATE_PATTERN));
                 return dateFrom.compareTo(dateTo) <= 0;
             } catch (DateTimeParseException exception) {
-                throw new BadRequestException(exception.getMessage());
+                throw ScheduleExceptionFactory.badRequest(exception.getMessage());
             }
         }
 
