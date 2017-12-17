@@ -6,6 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 @SuppressWarnings("unused")
 @Entity(name = "plan")
@@ -109,29 +113,53 @@ public class Schedule {
         return day.trim();
     }
 
-    public enum Fields {
-        NAME("name"),
-        SURNAME("surname"),
-        ROOM("room"),
-        SUBJECT("subject"),
-        SEMESTER("semester"),
-        FACULTY("faculty"),
-        FACULTY_ABBREVIATION("facultyAbbreviation"),
-        FIELD_OF_STUDY("fieldOfStudy"),
-        FORM("form"),
-        DATE_FROM("dateFrom"),
-        DATE_TO("dateTo"),
-        DATE("date"),
-        GROUP_ID("groupId");
+    public enum Field {
+        NAME("name", Schedule::getName),
+        SURNAME("surname", Schedule::getSurname),
+        ROOM("room", Schedule::getRoom),
+        COURSE_TYPE("courseType", Schedule::getCourseType),
+        SUBJECT("subject", Schedule::getSubject),
+        SEMESTER("semester", Schedule::getSemester),
+        FACULTY("faculty", Schedule::getFaculty),
+        FACULTY_ABBREVIATION("facultyAbbreviation", Schedule::getFacultyAbbreviation),
+        FIELD_OF_STUDY("fieldOfStudy", Schedule::getFieldOfStudy),
+        FORM("form", Schedule::getForm),
+        DATE_FROM("dateFrom", null),
+        DATE_TO("dateTo", null),
+        DATE("date", Schedule::getDate),
+        GROUP_ID("groupId", schedule -> schedule.getGroupId().toString()),
+        RESERVATION_STATUS("reservationStatus", Schedule::getReservationStatus),
+        RESERVATION_STATUS_ABBREVIATION("reservationStatusAbbreviation", Schedule::getReservationStatusAbbreviation),
+        STATUS("status", Schedule::getStatus),
+        SUBSTITUTE_SURNAME("substituteSurname", Schedule::getSubstituteSurname),
+        SUBSTITUTE_NAME("substituteName", Schedule::getSubstituteName);
+
+        private static final Map<String, Field> valuesLookup = new HashMap<>();
+
+        static {
+            for (Field field : Field.values()) {
+                valuesLookup.put(field.getKey(), field);
+            }
+        }
 
         private final String key;
+        private final Function<Schedule, String> mapper;
 
-        Fields(String key) {
+        Field(String key, Function<Schedule, String> mapper) {
             this.key = key;
+            this.mapper = mapper;
+        }
+
+        public static Field fieldOf(String value) {
+            return valuesLookup.get(value);
         }
 
         public String getKey() {
             return key;
+        }
+
+        public Optional<Function<Schedule, String>> getMapper() {
+            return Optional.ofNullable(mapper);
         }
     }
 }

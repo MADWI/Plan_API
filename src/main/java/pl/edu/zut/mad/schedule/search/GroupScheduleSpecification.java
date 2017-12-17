@@ -9,7 +9,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-import static pl.edu.zut.mad.schedule.model.inner.Schedule.Fields.GROUP_ID;
+import static pl.edu.zut.mad.schedule.model.inner.Schedule.Field.GROUP_ID;
 
 public class GroupScheduleSpecification implements Specification<Schedule> {
 
