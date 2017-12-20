@@ -1,15 +1,14 @@
 buildscript {
-	ext {
-		springBootVersion = '2.0.0.M3'
-	}
-	repositories {
-		mavenCentral()
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '2.0.0.M7'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 apply plugin: 'java'
@@ -17,26 +16,25 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-version = '1.0.7'
+version = '1.0.15'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
-	maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
 }
 
 bootJar {
-    launchScript {
-        included = true
-    }
+    launchScript()
 }
 
 dependencies {
-	compile 'org.springframework.boot:spring-boot-starter-web'
-	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-	compile 'mysql:mysql-connector-java'
-	compile 'org.projectlombok:lombok'
-	compile 'com.h2database:h2'
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'mysql:mysql-connector-java'
+    compile 'org.projectlombok:lombok'
+    compile 'com.h2database:h2'
+    compile "io.springfox:springfox-swagger2:2.7.0"
+    compile 'io.springfox:springfox-swagger-ui:2.7.0'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
