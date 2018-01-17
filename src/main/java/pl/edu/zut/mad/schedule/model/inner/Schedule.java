@@ -1,7 +1,5 @@
 package pl.edu.zut.mad.schedule.model.inner;
 
-import lombok.Getter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +12,6 @@ import java.util.function.Function;
 @SuppressWarnings("unused")
 @Entity(name = "plan")
 @IdClass(ScheduleId.class)
-@Getter
 public class Schedule {
 
     @Id
@@ -111,6 +108,94 @@ public class Schedule {
 
     public String getDay() {
         return day.trim();
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public String getAcademicTitle() {
+        return academicTitle.trim();
+    }
+
+    public String getName() {
+        return name.trim();
+    }
+
+    public String getSurname() {
+        return surname.trim();
+    }
+
+    public String getRoom() {
+        return room.trim();
+    }
+
+    public String getCourseType() {
+        return courseType.trim();
+    }
+
+    public String getSubject() {
+        return subject.trim();
+    }
+
+    public String getSemester() {
+        return semester.trim();
+    }
+
+    public String getFaculty() {
+        return faculty.trim();
+    }
+
+    public String getFacultyAbbreviation() {
+        return facultyAbbreviation.trim();
+    }
+
+    public String getFieldOfStudy() {
+        return fieldOfStudy.trim();
+    }
+
+    public String getForm() {
+        return form.trim();
+    }
+
+    public String getCycle() {
+        return cycle.trim();
+    }
+
+    public String getDate() {
+        return date.trim();
+    }
+
+    public String getTimeFrom() {
+        return timeFrom.trim();
+    }
+
+    public String getTimeTo() {
+        return timeTo.trim();
+    }
+
+    public String getReservationStatus() {
+        return reservationStatus.trim();
+    }
+
+    public String getReservationStatusAbbreviation() {
+        return reservationStatusAbbreviation.trim();
+    }
+
+    public String getStatus() {
+        return status.trim();
+    }
+
+    public String getSubstituteTitle() {
+        return substituteTitle.trim();
+    }
+
+    public String getSubstituteSurname() {
+        return substituteSurname.trim();
+    }
+
+    public String getSubstituteName() {
+        return substituteName.trim();
     }
 
     public enum Field {
