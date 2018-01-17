@@ -45,7 +45,7 @@ public class ScheduleSpecification implements Specification<Schedule> {
                 return root.get(GROUP_ID.getKey())
                         .in(searchValue);
             default:
-                return builder.like(root.get(searchKey), "%" + searchValue + "%");
+                return builder.like(root.get(searchKey), searchValue);
         }
     }
 
