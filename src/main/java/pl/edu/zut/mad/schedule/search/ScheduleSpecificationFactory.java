@@ -59,10 +59,17 @@ public class ScheduleSpecificationFactory {
 
     public Specification<Schedule> specification(Map<String, String> params, List<Integer> groupIds) {
         Optional<Specification<Schedule>> optionalSpecification = specification(params);
-        return optionalSpecification.map(scheduleSpecification ->
-                Specification.where(scheduleSpecification)
-                        .and(new GroupScheduleSpecification(groupIds)))
-                .orElseGet(() -> Specification.where(new GroupScheduleSpecification(groupIds)));
+        return optionalSpecification.map(scheduleSpecification -> addGroupSpecification(scheduleSpecification, groupIds))
+                .orElseGet(() -> getGroupSpecification(groupIds));
+    }
+
+    private Specification<Schedule> addGroupSpecification(Specification<Schedule> scheduleSpecification, List<Integer> groupIds) {
+        return Specification.where(scheduleSpecification)
+                .and(new GroupScheduleSpecification(groupIds));
+    }
+
+    private Specification<Schedule> getGroupSpecification(List<Integer> groupIds) {
+        return Specification.where(new GroupScheduleSpecification(groupIds));
     }
 
     private boolean isDateRangeValid(Map<String, String> params) {
