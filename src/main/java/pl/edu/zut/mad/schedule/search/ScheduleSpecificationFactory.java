@@ -2,7 +2,6 @@ package pl.edu.zut.mad.schedule.search;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import pl.edu.zut.mad.schedule.exception.ScheduleExceptionFactory;
@@ -51,7 +50,7 @@ public class ScheduleSpecificationFactory {
         }
 
         for (int i = 1; i < scheduleSpecifications.size(); i++) {
-            specification = Specifications.where(specification)
+            specification = Specification.where(specification)
                     .and(scheduleSpecifications.get(i));
         }
 
@@ -60,12 +59,17 @@ public class ScheduleSpecificationFactory {
 
     public Specification<Schedule> specification(Map<String, String> params, List<Integer> groupIds) {
         Optional<Specification<Schedule>> optionalSpecification = specification(params);
-        if (optionalSpecification.isPresent()) {
-            return Specifications.where(optionalSpecification.get())
-                    .and(new GroupScheduleSpecification(groupIds));
-        } else {
-            return Specifications.where(new GroupScheduleSpecification(groupIds));
-        }
+        return optionalSpecification.map(scheduleSpecification -> addGroupSpecification(scheduleSpecification, groupIds))
+                .orElseGet(() -> getGroupSpecification(groupIds));
+    }
+
+    private Specification<Schedule> addGroupSpecification(Specification<Schedule> scheduleSpecification, List<Integer> groupIds) {
+        return Specification.where(scheduleSpecification)
+                .and(new GroupScheduleSpecification(groupIds));
+    }
+
+    private Specification<Schedule> getGroupSpecification(List<Integer> groupIds) {
+        return Specification.where(new GroupScheduleSpecification(groupIds));
     }
 
     private boolean isDateRangeValid(Map<String, String> params) {
