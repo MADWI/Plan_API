@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.0.0.RELEASE'
+    id 'org.springframework.boot' version '2.0.4.RELEASE'
 }
 
 apply plugin: 'java'
@@ -24,7 +24,7 @@ dependencies {
     compile 'mysql:mysql-connector-java'
     compile 'org.projectlombok:lombok'
     compile 'com.h2database:h2'
-    compile 'io.springfox:springfox-swagger2:2.7.0'
-    compile 'io.springfox:springfox-swagger-ui:2.7.0'
+    compile 'io.springfox:springfox-swagger2:2.9.2'
+    compile 'io.springfox:springfox-swagger-ui:2.9.2'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
