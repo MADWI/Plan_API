@@ -31,6 +31,7 @@ public class ScheduleApplication {
                 .build()
                 .pathMapping("/")
                 .directModelSubstitute(LocalDate.class, String.class)
-                .genericModelSubstitutes(ResponseEntity.class);
+                .genericModelSubstitutes(ResponseEntity.class)
+                .useDefaultResponseMessages(false);
     }
 }
