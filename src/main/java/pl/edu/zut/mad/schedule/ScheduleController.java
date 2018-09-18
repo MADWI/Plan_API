@@ -86,9 +86,7 @@ public class ScheduleController {
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
                     "'_' - matches any single character",
                     paramType = "query"),
-            @ApiImplicitParam(name = "facultyAbbreviation", value = "Faculty abbreviation, " +
-                    "supports wildcard characters: '%' - matches zero or more of any character; " +
-                    "'_' - matches any single character",
+            @ApiImplicitParam(name = "facultyAbbreviation", value = "Faculty abbreviation",
                     paramType = "query"),
             @ApiImplicitParam(name = "fieldOfStudy", value = "Field of study, " +
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
@@ -102,9 +100,7 @@ public class ScheduleController {
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
                     "'_' - matches any single character",
                     paramType = "query"),
-            @ApiImplicitParam(name = "reservationStatusAbbreviation", value = "Reservation status abbreviation, " +
-                    "supports wildcard characters: '%' - matches zero or more of any character; " +
-                    "'_' - matches any single character",
+            @ApiImplicitParam(name = "reservationStatusAbbreviation", value = "Reservation status abbreviation",
                     paramType = "query"),
             @ApiImplicitParam(name = "status", value = "Status, " +
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
@@ -170,9 +166,7 @@ public class ScheduleController {
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
                     "'_' - matches any single character",
                     paramType = "query"),
-            @ApiImplicitParam(name = "facultyAbbreviation", value = "Faculty abbreviation, " +
-                    "supports wildcard characters: '%' - matches zero or more of any character; " +
-                    "'_' - matches any single character",
+            @ApiImplicitParam(name = "facultyAbbreviation", value = "Faculty abbreviation",
                     paramType = "query"),
             @ApiImplicitParam(name = "fieldOfStudy", value = "Field of study, " +
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
@@ -186,9 +180,7 @@ public class ScheduleController {
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
                     "'_' - matches any single character",
                     paramType = "query"),
-            @ApiImplicitParam(name = "reservationStatusAbbreviation", value = "Reservation status abbreviation, " +
-                    "supports wildcard characters: '%' - matches zero or more of any character; " +
-                    "'_' - matches any single character",
+            @ApiImplicitParam(name = "reservationStatusAbbreviation", value = "Reservation status abbreviation",
                     paramType = "query"),
             @ApiImplicitParam(name = "status", value = "Status, " +
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
