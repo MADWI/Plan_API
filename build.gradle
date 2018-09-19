@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.0.4.RELEASE'
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
 }
 
 apply plugin: 'java'
@@ -7,7 +7,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-version = '1.0.15'
+version = '1.0.17'
 sourceCompatibility = 1.8
 
 repositories {

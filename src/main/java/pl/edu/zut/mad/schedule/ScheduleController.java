@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Api(value = "Schedule")
 @Controller
-@RequestMapping(path = "/api/schedule")
+@RequestMapping(path = "/schedule")
 public class ScheduleController {
 
     private final ScheduleMapper scheduleMapper;

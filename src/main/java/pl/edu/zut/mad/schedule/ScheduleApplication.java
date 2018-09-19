@@ -26,8 +26,8 @@ public class ScheduleApplication {
     public Docket scheduleApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/api/**"))
+                .apis(RequestHandlerSelectors.basePackage("pl.edu.zut.mad.schedule"))
+                .paths(PathSelectors.any())
                 .build()
                 .pathMapping("/")
                 .directModelSubstitute(LocalDate.class, String.class)
