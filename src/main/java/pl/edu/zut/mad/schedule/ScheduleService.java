@@ -37,7 +37,7 @@ public class ScheduleService {
         this.exceptionFactory = exceptionFactory;
     }
 
-    public List<Schedule> findByAlbumNumber(final int albumNumber, final Map<String, String> params) {
+    List<Schedule> findByAlbumNumber(final int albumNumber, final Map<String, String> params) {
         if (scheduleRepository.count() == 0) {
             throw exceptionFactory.emptyDatabase();
         }
@@ -53,7 +53,7 @@ public class ScheduleService {
         return scheduleRepository.findAll(specification);
     }
 
-    public List<Schedule> findBy(Map<String, String> params) {
+    List<Schedule> findBy(Map<String, String> params) {
         if (scheduleRepository.count() == 0) {
             throw exceptionFactory.emptyDatabase();
         }
@@ -66,7 +66,7 @@ public class ScheduleService {
         return scheduleRepository.findAll(specification);
     }
 
-    public List<String> getDictionaryFor(Map<String, String> params) {
+    List<String> getDictionaryFor(Map<String, String> params) {
         if (scheduleRepository.count() == 0) {
             throw exceptionFactory.emptyDatabase();
         }
