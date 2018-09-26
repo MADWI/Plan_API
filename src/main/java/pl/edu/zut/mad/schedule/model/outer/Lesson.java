@@ -18,6 +18,7 @@ public class Lesson {
     private final String reservationStatus;
     private final String reservationStatusAbbreviation;
     private final String status;
+    private final String group;
     private final Teacher teacher;
     private final TimeRange timeRange;
     private final Teacher substituteTeacher;
