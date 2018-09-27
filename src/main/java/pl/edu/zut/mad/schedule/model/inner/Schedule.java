@@ -106,6 +106,14 @@ public class Schedule {
     @Column(name = "Zca_Imie")
     private String substituteName;
 
+    @Id
+    @Column(name = "grupa")
+    private String group;
+
+    @Id
+    @Column(name = "nazwa_grupy")
+    private String groupName;
+
     public String getDay() {
         return day.trim();
     }
@@ -198,6 +206,14 @@ public class Schedule {
         return substituteName.trim();
     }
 
+    public String getGroup() {
+        return group.trim();
+    }
+
+    public String getGroupName() {
+        return groupName.trim();
+    }
+
     public enum Field {
         NAME("name", Schedule::getName),
         SURNAME("surname", Schedule::getSurname),
@@ -217,7 +233,9 @@ public class Schedule {
         RESERVATION_STATUS_ABBREVIATION("reservationStatusAbbreviation", Schedule::getReservationStatusAbbreviation),
         STATUS("status", Schedule::getStatus),
         SUBSTITUTE_SURNAME("substituteSurname", Schedule::getSubstituteSurname),
-        SUBSTITUTE_NAME("substituteName", Schedule::getSubstituteName);
+        SUBSTITUTE_NAME("substituteName", Schedule::getSubstituteName),
+        GROUP("group", Schedule::getGroup),
+        GROUP_NAME("groupName", Schedule::getGroupName);
 
         private static final Map<String, Field> valuesLookup = new HashMap<>();
 

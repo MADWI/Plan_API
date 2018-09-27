@@ -114,6 +114,10 @@ public class ScheduleController {
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
                     "'_' - matches any single character",
                     paramType = "query"),
+            @ApiImplicitParam(name = "group", value = "Group, " +
+                    "supports wildcard characters: '%' - matches zero or more of any character; " +
+                    "'_' - matches any single character",
+                    paramType = "query"),
             @ApiImplicitParam(name = "dateFrom", value = "Start date in format dd-MM-yyyy", paramType = "query",
                     format = "dd-MM-yyyy", example = "17-12-2017"),
             @ApiImplicitParam(name = "dateTo", value = "End date in format dd-MM-yyyy", paramType = "query",
@@ -191,6 +195,10 @@ public class ScheduleController {
                     "'_' - matches any single character",
                     paramType = "query"),
             @ApiImplicitParam(name = "substituteName", value = "Substitute teacher's first name, " +
+                    "supports wildcard characters: '%' - matches zero or more of any character; " +
+                    "'_' - matches any single character",
+                    paramType = "query"),
+            @ApiImplicitParam(name = "group", value = "Group, " +
                     "supports wildcard characters: '%' - matches zero or more of any character; " +
                     "'_' - matches any single character",
                     paramType = "query"),

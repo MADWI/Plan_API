@@ -31,4 +31,6 @@ class ScheduleId implements Serializable {
     private String substituteTitle;
     private String substituteSurname;
     private String substituteName;
+    private String group;
+    private String groupName;
 }

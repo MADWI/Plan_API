@@ -45,11 +45,22 @@ class ScheduleMapper {
                 LocalTime.parse(schedule.getTimeTo()));
         final Teacher substituteTeacher = substituteTeacherFrom(schedule);
 
-        return new Lesson(schedule.getRoom(), schedule.getCourseType(), schedule.getSubject(),
-                schedule.getSemester(), schedule.getFaculty(), schedule.getFacultyAbbreviation(),
-                schedule.getFieldOfStudy(), schedule.getReservationStatus(),
-                schedule.getReservationStatusAbbreviation(), schedule.getStatus(), teacher, timeRange,
-                substituteTeacher);
+        return new Lesson(
+                schedule.getRoom(),
+                schedule.getCourseType(),
+                schedule.getSubject(),
+                schedule.getSemester(),
+                schedule.getFaculty(),
+                schedule.getFacultyAbbreviation(),
+                schedule.getFieldOfStudy(),
+                schedule.getReservationStatus(),
+                schedule.getReservationStatusAbbreviation(),
+                schedule.getStatus(),
+                schedule.getGroup(),
+                teacher,
+                timeRange,
+                substituteTeacher
+        );
     }
 
     @Nullable
