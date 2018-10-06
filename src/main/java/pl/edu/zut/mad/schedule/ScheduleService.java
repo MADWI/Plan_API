@@ -54,9 +54,6 @@ public class ScheduleService {
     }
 
     List<Schedule> findBy(Map<String, String> params) {
-        if (scheduleRepository.count() == 0) {
-            throw exceptionFactory.emptyDatabase();
-        }
         if (params.isEmpty()) {
             throw exceptionFactory.missingParam();
         }
@@ -67,10 +64,6 @@ public class ScheduleService {
     }
 
     List<String> getDictionaryFor(Map<String, String> params) {
-        if (scheduleRepository.count() == 0) {
-            throw exceptionFactory.emptyDatabase();
-        }
-
         Integer limit = params.containsKey(LIMIT) ? Integer.parseInt(params.get(LIMIT)) : null;
         String filter = params.get(FILTER);
         if (!params.containsKey(filter)) {
